@@ -1,0 +1,42 @@
+// Code your testbench here
+// or browse Examples
+//`include "uvm_macros.svh" // Include UVM macros for UVM functionalities
+//import package::*; // Import UVM package for UVM classes and methods
+
+package my_package;
+  // Declare items within the package
+  import uvm_pkg::*; // Import UVM package
+  // Other definitions, types, etc.
+endpackage
+
+// Include necessary UVM macros
+`include "uvm_macros.svh" 
+`include "interface" // Include the definition of the interface
+`include "test" // Include the base test class definition
+module tb_top;
+ // Instantiate the interface
+ intf_not vif(); // Declare an instance of the interface not_if
+ 
+ // Instantiate the Device Under Test (DUT)
+ not_gate dut (
+ .in(vif.in), // Connect the input of the DUT to the input of the interface
+ .out(vif.out) // Connect the output of the DUT to the output of the interface
+ );
+ 
+  initial begin
+  // Initialize waveform dumping
+    $dumpfile("dump.vcd"); // Specify the name of the dump file
+  $dumpvars(0, tb_top); // Dump all variables in tb_top
+end
+  
+ initial begin
+ // Set the interface instance in the UVM configuration database
+ // This allows the test to access the interface instance via the config_db
+   uvm_config_db#(virtual intf_not)::set(uvm_root::get(), "*", "vif", vif);
+ end
+ initial begin
+ // Run the testbench with the base test class
+   run_test("my_test");
+ end
+ 
+endmodule

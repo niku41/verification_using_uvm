@@ -1,0 +1,6 @@
+// Define the interface not_if
+interface intf_not();
+ // Declare the signals in the interface
+ logic in; // Input signal for the DUT
+ logic out; // Output signal from the DUT
+endinterface
