@@ -1,0 +1,7 @@
+//////////////////////INTERFACE/////////////////////////// 
+//define interface for buf 
+interface intf_buf(); 
+  //declare signals in interface 
+  logic in; //i/p signal for dut 
+  logic out; //o/p signal for dut 
+endinterface

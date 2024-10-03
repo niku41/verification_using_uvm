@@ -1,0 +1,19 @@
+////////////////////SEQUENCE ITEM//////////////////////////// 
+//define sequence_item class for uvm_sequence_item 
+class sequence_item extends uvm_sequence_item; 
+  
+  //randomize fields 
+  rand bit in; //i/p variable to be randomize 
+  bit out; //o/p value to used in sequence item 
+  
+  //constructor 
+  function new(string name = "seq_item"); 
+    super.new(name); //call parent class constructor with given name 
+  endfunction 
+  
+  //uvm utilities for sequence item 
+  `uvm_object_utils_begin(sequence_item) //register fields for automatic reporting and recording 
+  `uvm_field_int(in,UVM_ALL_ON) //register in field with full access for reporting 
+  `uvm_field_int(out,UVM_ALL_ON) //register out field with full access for reporting 
+  `uvm_object_utils_end 
+endclass

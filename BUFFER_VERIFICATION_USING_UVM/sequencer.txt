@@ -1,0 +1,16 @@
+ /////////////////SEQUENCER////////////////////////// 
+//define sequencer class extending uvm_sequencer with parameterized seq_item 
+class sequencer extends uvm_sequencer#(sequence_item); 
+  `uvm_component_utils(sequencer) //macro to register the class with the factory 
+  
+  //constructor 
+  function new(string name = "sequencer",uvm_component parent = null); 
+    super.new(name,parent); 
+  endfunction 
+  
+  //build phase of sequencer 
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase); //call the parent class build_phase method for any necessary setup 
+  endfunction 
+
+endclass 

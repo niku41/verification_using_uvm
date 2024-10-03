@@ -1,0 +1,23 @@
+/////////////////////////////////SEQUENCE/////////////////// 
+//define my_sequence class extending uvm_sequence with a parameterised sequence_item 
+class my_sequence extends uvm_sequence#(sequence_item); 
+  `uvm_object_utils(my_sequence) 
+  //macro to register class with uvm factory 
+  
+  //constructor 
+  function new(string name = "base_seq"); 
+    super.new(name); //calling to parent class constructor 
+  endfunction 
+  
+  //task for defining sequence behavior 
+  task body(); //create an instance of sequence item 
+    req = sequence_item::type_id::create("req"); 
+    //start sequence item and check for successful completion 
+    start_item(req); 
+    //randomize sequence item and check for successful randomization 
+    assert(req.randomize()); 
+    //finish sequence item by signaling completion 
+    finish_item(req); 
+  endtask 
+
+endclass
