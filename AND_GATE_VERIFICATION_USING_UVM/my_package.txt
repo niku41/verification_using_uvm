@@ -1,0 +1,16 @@
+// Include the definition of the sequence item class
+`include "sequence_item" // Contains the seq_item class which defines the sequence item structure
+// Include the base sequence class definition
+`include "sequence" // Contains the base_seq class which defines the base sequence for test scenarios
+// Include the sequencer class definition
+`include "sequencer" // Contains the sequencer class which is responsible for driving sequences of items
+// Include the driver class definition
+`include "driver" // Contains the driver class which drives sequence items onto the DUT
+// Include the monitor class definition
+`include "monitor" // Contains the monitor class which observes signals and collects data
+// Include the scoreboard class definition
+`include "scoreboard" // Contains the scoreboard class which checks the correctness of the DUT's responses
+// Include the agent class definition
+`include "agent" // Contains the agent class which bundles the sequencer, driver, and monitor
+// Include the environment class definition
+`include "environment" // Contains the environment class which sets up andconnects the agent and other component
