@@ -1,0 +1,4 @@
+interface intf_nor();
+  logic a,b;
+  logic y;
+endinterface
