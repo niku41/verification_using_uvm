@@ -1,0 +1,5 @@
+interface intf_xor();
+ logic a,b;
+ logic y;
+endinterface
+
