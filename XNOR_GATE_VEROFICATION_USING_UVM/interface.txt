@@ -1,0 +1,4 @@
+interface intf_xnor();
+ logic a,b;
+ logic y;
+endinterface

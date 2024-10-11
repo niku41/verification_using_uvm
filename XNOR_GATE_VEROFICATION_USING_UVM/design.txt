@@ -1,0 +1,6 @@
+module xnor_gate(
+ input a,b, // Input signal
+ output y // Output signal
+);
+  assign y = ~(a ^ b);
+endmodule

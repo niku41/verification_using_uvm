@@ -1,0 +1,29 @@
+class scoreboard extends uvm_scoreboard;
+ `uvm_component_utils(scoreboard)
+  uvm_analysis_imp #(sequence_item, scoreboard) item_collect_export;
+
+ function new(string name="scoreboard", uvm_component parent=null);
+ super.new(name, parent); 
+ item_collect_export = new("item_collect_export", this);
+ endfunction
+ 
+ 
+ function void build_phase(uvm_phase phase);
+ super.build_phase(phase);
+ endfunction
+ 
+  function void write(sequence_item req);
+ $display("-------------------------------------------");
+ 
+ if (req.y == req.a & req.b) begin
+
+   `uvm_info(get_type_name(), $sformatf("MATCH a=%0d, b=%0d, y=%0d", req.a, req.b,req.y), UVM_LOW);
+ end else begin
+ `uvm_info(get_type_name(), $sformatf("NOT MATCH a=%0d, b=%0d, y=%0d", req.a,
+req.b, req.y), UVM_LOW);
+ end
+ 
+ $display("-------------------------------------------");
+ endfunction
+ 
+endclass
