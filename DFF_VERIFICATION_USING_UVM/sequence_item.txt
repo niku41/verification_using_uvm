@@ -1,0 +1,15 @@
+class dff_seq_item extends uvm_sequence_item;
+  `uvm_object_utils(dff_seq_item) 
+  
+  rand logic rst;
+  rand logic d;
+  logic q;
+  
+  function new(string name ="dff_seq_item");
+    super.new(name);
+    `uvm_info("sequence item Class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  constraint wr_rd_c { rst != 1; }; 
+ 
+endclass
