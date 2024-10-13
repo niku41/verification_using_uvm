@@ -1,0 +1,32 @@
+class tff_test extends uvm_test;
+  `uvm_component_utils(tff_test)
+
+  tff_env env;
+  tff_sequence seq;
+
+  function new(string name = "tff_test", uvm_component parent = null);
+    super.new(name, parent);
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    env = tff_env::type_id::create("env", this);
+    seq = tff_sequence::type_id::create("seq", this);
+  endfunction
+
+  function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+  endfunction
+
+  virtual function void end_of_elaboration();
+    `uvm_info("test class", "end_of_elaboration", UVM_MEDIUM)
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    `uvm_info("test class", "run_phase", UVM_MEDIUM)
+    
+    phase.raise_objection(this);  // Correct method
+    seq.start(env.agent.seqr);
+    phase.drop_objection(this);   // Correct method
+  endtask
+endclass

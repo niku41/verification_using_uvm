@@ -1,0 +1,25 @@
+class tff_agent extends uvm_agent;
+  `uvm_component_utils(tff_agent)
+  
+  tff_driver drv;
+  tff_monitor mon;
+  tff_sequencer seqr;
+  
+  function new(string name = "tff_agent", uvm_component parent = null);
+    super.new(name, parent);
+    `uvm_info("Agent class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    seqr = tff_sequencer::type_id::create("seqr", this);
+    drv = tff_driver::type_id::create("drv", this);
+    mon = tff_monitor::type_id::create("mon", this);
+  endfunction
+
+  function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    drv.seq_item_port.connect(seqr.seq_item_export);  // Correct connection
+  endfunction
+  
+endclass

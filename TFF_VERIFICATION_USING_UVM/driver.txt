@@ -1,0 +1,33 @@
+class tff_driver extends uvm_driver#(tff_seq_item);
+  `uvm_component_utils(tff_driver)
+
+  virtual tff_intf intf;
+  tff_seq_item tx;
+
+  function new(string name = "tff_driver", uvm_component parent = null);
+    super.new(name, parent);
+    `uvm_info("driver class", "constructor", UVM_MEDIUM)
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if(!uvm_config_db#(virtual tff_intf)::get(this, "", "vif", intf))
+      `uvm_fatal("no_intf in driver", "virtual interface get failed from config db");
+  endfunction
+  
+  task run_phase(uvm_phase phase);
+    forever begin
+      seq_item_port.get_next_item(tx);
+      drive(tx);
+      seq_item_port.item_done();
+    end
+  endtask
+
+  task drive(tff_seq_item tx);
+    @(posedge intf.clk)
+    intf.rst <= tx.rst;
+    intf.t <= tx.t;
+    intf.q <= tx.q;
+  endtask
+  
+endclass

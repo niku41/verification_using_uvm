@@ -1,0 +1,9 @@
+class tff_sequencer extends uvm_sequencer#(tff_seq_item);
+  `uvm_component_utils(tff_sequencer)
+  
+  function new(string name = "tff_sequencer", uvm_component parent = null);
+    super.new(name, parent);
+    `uvm_info("sequencer class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+endclass

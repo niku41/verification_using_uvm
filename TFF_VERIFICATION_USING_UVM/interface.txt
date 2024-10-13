@@ -1,0 +1,5 @@
+interface tff_intf(input logic clk);
+  logic rst;
+  logic t;
+  logic q;
+endinterface

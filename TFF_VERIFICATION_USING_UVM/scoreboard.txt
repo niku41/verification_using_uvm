@@ -1,0 +1,20 @@
+class tff_scoreboard extends uvm_scoreboard;
+  `uvm_component_utils(tff_scoreboard)
+  
+  uvm_analysis_imp#(tff_seq_item, tff_scoreboard) item_collected_export;
+  
+  tff_seq_item tx_q[$];
+  
+  function new(string name = "tff_scoreboard", uvm_component parent = null);
+    super.new(name,parent);
+  endfunction
+  
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    item_collected_export = new("item_collected_export", this);
+  endfunction
+  
+  virtual function void write(tff_seq_item tx);
+    tx_q.push_back(tx);
+  endfunction
+endclass

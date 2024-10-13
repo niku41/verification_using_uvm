@@ -1,0 +1,51 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+`include "interface"
+`include "sequence_item"
+`include "sequence"
+`include "sequencer"
+`include "driver"
+`include "monitor"
+`include "agent"
+`include "scoreboard"
+`include "env"
+`include "test"
+
+module top;
+  
+  tff_intf vif();
+  
+  logic clk;
+  tff dut(.clk(vif.clk), .rst(vif.rst), .t(vif.t), .q(vif.q));
+  
+  virtual tff_intf intf;
+  tff_intf intf_inst(.clk(clk));
+  
+  initial clk = 0;
+  always #10 clk = ~clk;
+  
+  initial begin
+    $monitor($time, " clk = %d", clk);
+    #100;
+    $finish;
+  end
+  
+  initial begin
+  // Initialize waveform dumping
+    $dumpfile("dump.vcd"); // Specify the name of the dump file
+  $dumpvars(0, top); // Dump all variables in tb_top
+end
+  
+  initial begin
+ // Set the interface instance in the UVM configuration database
+ // This allows the test to access the interface instance via the config_db
+    uvm_config_db#(virtual tff_intf)::set(uvm_root::get(), "*", "vif", vif);
+ end
+  
+  initial begin
+ // Run the testbench with the base test class
+    run_test("tff_test");
+ end
+  
+endmodule

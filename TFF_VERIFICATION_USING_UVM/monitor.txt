@@ -1,0 +1,33 @@
+class tff_monitor extends uvm_monitor;
+  `uvm_component_utils(tff_monitor)
+
+  virtual tff_intf intf;
+  uvm_analysis_port#(tff_seq_item) item_collected_port;
+  tff_seq_item tx;
+
+  function new(string name = "tff_monitor", uvm_component parent = null);
+    super.new(name, parent);
+    `uvm_info("monitor class", "constructor", UVM_MEDIUM)
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    item_collected_port = new("item_collected_port", this);
+
+    if(!uvm_config_db#(virtual tff_intf)::get(this, "", "vif", intf))
+      `uvm_fatal("no_intf in monitor", "virtual interface get failed from config db");
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    tx = tff_seq_item::type_id::create("tx");
+    wait(!intf.rst);
+
+    forever begin
+      @(posedge intf.clk);
+      tx.rst = intf.rst;
+      tx.t = intf.t;
+      tx.q = intf.q;
+      item_collected_port.write(tx);  // Send the transaction
+    end
+  endtask
+endclass

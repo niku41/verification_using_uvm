@@ -1,0 +1,11 @@
+class tff_seq_item extends uvm_sequence_item;
+  `uvm_object_utils(tff_seq_item)
+  
+  rand logic rst;
+  rand logic t;  // Replaced 'd' with 't'
+  logic q;
+  
+  function new(string name = "tff_seq_item");
+    super.new(name);
+  endfunction
+endclass

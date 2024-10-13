@@ -1,0 +1,19 @@
+class tff_sequence extends uvm_sequence#(tff_seq_item);
+  `uvm_object_utils(tff_sequence)
+  
+  tff_seq_item tx;
+  
+  function new(string name = "tff_sequence");
+    super.new(name);
+  endfunction
+  
+  task body();
+    repeat(5) begin
+      tx = tff_seq_item::type_id::create("tx");
+      wait_for_grant();
+      tx.randomize();
+      send_request(tx);
+      wait_for_item_done();
+    end
+  endtask
+endclass
