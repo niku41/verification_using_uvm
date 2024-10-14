@@ -1,0 +1,26 @@
+class dlatch_agent extends uvm_agent;
+  `uvm_component_utils(dlatch_agent)
+
+  dlatch_driver drv;
+  dlatch_monitor mon;
+  dlatch_sequencer seqr;
+
+  function new(string name = "dlatch_agent", uvm_component parent);
+    super.new(name,parent);
+    `uvm_info("agent class", "constructor", UVM_MEDIUM)
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+
+    drv = dlatch_driver :: type_id :: create("dlatch_driver", this);
+    mon = dlatch_monitor :: type_id :: create("dlatch_monitor", this);
+    seqr = dlatch_sequencer :: type_id :: create("dlatch_sequencer", this);
+  endfunction
+
+  function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    `uvm_info("agent class", "connect phase", UVM_MEDIUM)
+    drv.seq_item_port.connect(seqr.seq_item_export);  // Correct connection: driver connects to sequencer
+  endfunction
+endclass

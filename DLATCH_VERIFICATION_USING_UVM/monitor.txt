@@ -1,0 +1,31 @@
+// Monitor class
+class dlatch_monitor extends uvm_monitor;
+  `uvm_component_utils(dlatch_monitor)
+
+  virtual dlatch_intf intf;
+  uvm_analysis_port#(dlatch_seq_item) item_collected_port;
+  dlatch_seq_item tx;
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);
+  endfunction
+
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if (!uvm_config_db#(virtual dlatch_intf)::get(this, "", "vif", intf)) begin
+      `uvm_fatal("NO_INTF", "Failed to get interface from config DB")
+    end
+    item_collected_port = new("item_collected_port", this);
+  endfunction
+
+  task run_phase(uvm_phase phase);
+    forever begin
+      @(posedge intf.en);
+      tx = dlatch_seq_item::type_id::create("tx");
+      tx.rst = intf.rst;
+      tx.d = intf.d;
+      tx.q = intf.q;
+      item_collected_port.write(tx);
+    end
+  endtask
+endclass

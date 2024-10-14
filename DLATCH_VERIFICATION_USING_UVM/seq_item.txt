@@ -1,0 +1,14 @@
+// Sequence Item class
+class dlatch_seq_item extends uvm_sequence_item;
+  `uvm_object_utils(dlatch_seq_item)
+
+  rand logic rst;
+  rand logic d;
+  logic q;
+
+  function new(string name = "dlatch_seq_item");
+    super.new(name);
+  endfunction
+
+  constraint valid_d_latch { rst != 1; }
+endclass

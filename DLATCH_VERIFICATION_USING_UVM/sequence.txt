@@ -1,0 +1,19 @@
+// Sequence class
+class dlatch_sequence extends uvm_sequence#(dlatch_seq_item);
+  `uvm_object_utils(dlatch_sequence)
+
+  dlatch_seq_item tx;
+
+  function new(string name = "dlatch_sequence");
+    super.new(name);
+  endfunction
+
+  task body();
+    repeat(5) begin
+      tx = dlatch_seq_item::type_id::create("tx");
+      start_item(tx);
+      assert(tx.randomize());
+      finish_item(tx);
+    end
+  endtask
+endclass

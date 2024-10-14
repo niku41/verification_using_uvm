@@ -1,0 +1,8 @@
+class dlatch_sequencer extends uvm_sequencer#(dlatch_seq_item);  // It should extend uvm_sequencer
+  `uvm_component_utils(dlatch_sequencer)
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);  // Correct constructor with parent argument
+    `uvm_info("sequencer class", "constructor", UVM_MEDIUM)
+  endfunction
+endclass

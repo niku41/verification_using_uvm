@@ -1,0 +1,15 @@
+// Scoreboard class
+class dlatch_scoreboard extends uvm_scoreboard;
+  `uvm_component_utils(dlatch_scoreboard)
+
+  uvm_analysis_imp#(dlatch_seq_item, dlatch_scoreboard) item_collected_export;
+  dlatch_seq_item tx_q[$];
+
+  function new(string name, uvm_component parent);
+    super.new(name, parent);
+  endfunction
+
+  function void write(dlatch_seq_item tx);
+    tx_q.push_back(tx);
+  endfunction
+endclass

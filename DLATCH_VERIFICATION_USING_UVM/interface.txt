@@ -1,0 +1,6 @@
+//intf
+interface dlatch_intf(input logic en);
+logic rst;
+logic d;
+logic q;
+endinterface

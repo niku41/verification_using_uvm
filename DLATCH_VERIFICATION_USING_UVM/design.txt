@@ -1,0 +1,14 @@
+//design
+module dlatch(
+input en,
+input rst,
+input d,
+output reg q);
+
+always @ (en or rst or d)  
+      if (!rst)  
+         q <= 0;  
+      else  
+         if (en)  
+            q <= d;  
+endmodule  

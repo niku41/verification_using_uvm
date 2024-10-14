@@ -1,0 +1,48 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+`include "interface"
+`include "sequence_item"
+`include "sequence"
+`include "sequencer"
+`include "driver"
+`include "monitor"
+`include "agent"
+`include "scoreboard"
+`include "environment"
+`include "test"
+
+// Top-level module
+module top;
+  logic en;
+  dlatch_intf intf(.en(en));
+
+  // DUT instantiation
+  dlatch dut(.en(intf.en), .d(intf.d), .rst(intf.rst), .q(intf.q));
+
+  // Virtual interface set
+  initial begin
+    uvm_config_db#(virtual dlatch_intf)::set(null, "*", "vif", intf);
+  end
+
+  // Clock generator
+  always #10 en = ~en;
+
+  initial begin
+    en = 0;
+    $monitor($time, " en=%0b rst=%0b d=%0b q=%0b", en, intf.rst, intf.d, intf.q);
+    #1000;
+    $finish;
+  end
+  
+  initial begin
+  // Initialize waveform dumping
+    $dumpfile("dump.vcd"); // Specify the name of the dump file
+  $dumpvars(0, top); // Dump all variables in tb_top
+end
+  
+   initial begin
+     run_test("dlatch_test");
+ end
+  
+endmodule
