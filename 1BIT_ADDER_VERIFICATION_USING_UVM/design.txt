@@ -1,0 +1,12 @@
+module adder (
+    input ain,    
+    input bin,    
+    input cin,    
+    output sout,  
+    output cout   
+);
+    assign sout = ain ^ bin ^ cin;
+    
+    assign cout = (ain & bin) | (cin & (ain ^ bin));
+
+endmodule

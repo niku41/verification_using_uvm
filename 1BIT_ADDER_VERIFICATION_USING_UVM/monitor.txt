@@ -1,0 +1,38 @@
+class monitor extends uvm_monitor;
+ `uvm_component_utils(monitor) 
+ virtual intf_addr vif;
+  uvm_analysis_port#(sequence_item) item_collect_port;
+ sequence_item mon_item;
+ 
+ function new(string name="monitor", uvm_component parent=null);
+ super.new(name, parent); 
+ item_collect_port = new("item_collect_port", this);
+ endfunction
+ 
+ function void build_phase(uvm_phase phase);
+ super.build_phase(phase); 
+   if (uvm_config_db#(virtual intf_addr)::get(this, "", "vif", vif) == null)
+     begin
+ `uvm_fatal(get_type_name(), "Virtual interface not set on top level")
+ end
+ mon_item = sequence_item::type_id::create("mon_item");
+ endfunction
+ 
+ task run_phase(uvm_phase phase);
+ forever begin
+   mon_item.ain <= vif.ain; 
+   mon_item.bin <= vif.bin; 
+   mon_item.cin <= vif.cin; 
+   `uvm_info(get_type_name(), $sformatf("AIN = %0d", mon_item.ain),UVM_LOW);
+   `uvm_info(get_type_name(), $sformatf("BIN = %0d", mon_item.bin),UVM_LOW);
+   `uvm_info(get_type_name(), $sformatf("CIN = %0d", mon_item.cin),UVM_LOW);
+mon_item.sout <= vif.sout;
+mon_item.cout <= vif.cout;
+   `uvm_info(get_type_name(), $sformatf("COUT = %0d", mon_item.cout),UVM_LOW); 
+   `uvm_info(get_type_name(), $sformatf("SOUT = %0d", mon_item.sout),UVM_LOW); 
+ item_collect_port.write(mon_item);
+ #1ns;
+ end
+ endtask
+ 
+endclass

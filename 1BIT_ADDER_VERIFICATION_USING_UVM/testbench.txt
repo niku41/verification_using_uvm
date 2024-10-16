@@ -1,0 +1,31 @@
+package my_package;
+  import uvm_pkg::*;
+endpackage
+
+`include "uvm_macros.svh" 
+`include "interface" 
+`include "test"
+module tb_top;
+ intf_addr vif();
+ 
+ adder dut (
+   .ain(vif.ain),
+   .bin(vif.bin),
+   .cin(vif.cin),
+   .sout(vif.sout),
+   .cout(vif.cout) 
+ );
+ 
+  initial begin
+    $dumpfile("dump.vcd");
+  $dumpvars(0, tb_top); 
+end
+  
+ initial begin
+   uvm_config_db#(virtual intf_addr)::set(uvm_root::get(), "*", "vif", vif);
+ end
+ initial begin
+   run_test("my_test");
+ end
+ 
+endmodule

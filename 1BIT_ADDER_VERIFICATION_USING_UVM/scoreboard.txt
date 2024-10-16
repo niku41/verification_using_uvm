@@ -1,0 +1,27 @@
+class scoreboard extends uvm_scoreboard;
+ `uvm_component_utils(scoreboard) 
+  uvm_analysis_imp #(sequence_item, scoreboard) item_collect_export;
+    reg [1:0] sum_res;
+  
+ function new(string name="scoreboard", uvm_component parent=null);
+ super.new(name, parent);
+ item_collect_export = new("item_collect_export", this); 
+ endfunction
+  
+ function void build_phase(uvm_phase phase);
+ super.build_phase(phase); 
+ endfunction 
+
+  function void write(sequence_item req);
+ $display("-------------------------------------------");
+    sum_res = req.ain + req.bin + req.cin;
+    if (req.sout == sum_res[0] && req.cout == sum_res[1]) begin
+      `uvm_info(get_type_name(), $sformatf("MATCH: AIN=%0d, BIN=%0d, CIN=%0d, SOUT=%0d, COUT=%0d", req.ain, req.bin, req.cin, req.sout, req.cout), UVM_LOW);
+    end else begin
+      `uvm_error(get_type_name(), $sformatf("MISMATCH: AIN=%0d, BIN=%0d, CIN=%0d, EXPECTED_SOUT=%0d, EXPECTED_COUT=%0d, ACTUAL_SOUT=%0d, ACTUAL_COUT=%0d", 
+        req.ain, req.bin, req.cin, sum_res[0], sum_res[1], req.sout, req.cout));
+    end
+ $display("-------------------------------------------");
+ endfunction
+ 
+endclass

@@ -1,0 +1,32 @@
+class driver extends uvm_driver#(sequence_item);
+ `uvm_component_utils(driver)
+  virtual intf_addr vif;
+  
+ function new(string name="driver", uvm_component parent=null);
+ super.new(name, parent); 
+ endfunction
+  
+ function void build_phase(uvm_phase phase);
+ super.build_phase(phase); 
+   if (uvm_config_db#(virtual intf_addr)::get(this, "", "vif", vif) == null) 
+ begin
+ `uvm_fatal(get_type_name(), "Virtual interface not set on top level")
+ end
+ endfunction
+  
+ task run_phase(uvm_phase phase);
+ sequence_item req; 
+ forever begin
+ seq_item_port.get_next_item(req);
+   `uvm_info(get_type_name(), $sformatf("AIN = %0d", req.ain), UVM_LOW);
+ vif.ain <= req.ain;
+   `uvm_info(get_type_name(), $sformatf("BIN = %0d", req.bin), UVM_LOW);
+ vif.bin <= req.bin;
+   `uvm_info(get_type_name(), $sformatf("CIN = %0d", req.cin), UVM_LOW);
+ vif.cin <= req.cin;
+ seq_item_port.item_done();
+ #1ns;
+ end
+ endtask
+ 
+endclass
