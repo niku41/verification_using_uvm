@@ -1,0 +1,11 @@
+import uvm_pkg::*;
+
+`include "seq_item"
+`include "sequence"
+`include "sequencer"
+`include "driver"
+`include "monitor"
+`include "scoreboard"
+`include "agent"
+`include "env"
+`include "my_test"

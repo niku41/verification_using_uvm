@@ -1,0 +1,18 @@
+// Sequence Class
+class base_seq extends uvm_sequence#(seq_item);
+  `uvm_object_utils(base_seq)
+  
+  function new(string name = "base_seq");
+    super.new(name);
+  endfunction
+  
+  virtual task body();
+    seq_item req;
+    repeat (16) begin
+      req = seq_item::type_id::create("req");
+      start_item(req);
+      req.rst = (req.count == 0) ? 1'b1 : 1'b0;  // Random stimulus
+      finish_item(req);
+    end
+  endtask
+endclass

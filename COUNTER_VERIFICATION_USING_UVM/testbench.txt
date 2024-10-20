@@ -1,0 +1,43 @@
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+`include "interface"
+`include "package"
+
+// Top-Level Testbench Module
+ virtual count_if vif;
+module tb_top;
+  bit clk;
+  bit rst;
+
+  // Clock generation
+  always #5 clk = ~clk;
+  
+  initial begin
+    clk = 0;
+    rst = 1;
+    #15 rst = 0;  
+  end
+  
+  count_if vif(clk);  
+  
+  counter DUT (
+    .clk(clk),
+    .rst(rst),
+    .count(vif.count)
+  );
+
+  initial begin
+  // Initialize waveform dumping
+    $dumpfile("dump.vcd"); // Specify the name of the dump file
+  $dumpvars(0, tb_top); // Dump all variables in tb_top
+end
+  
+  initial begin
+    uvm_config_db#(virtual count_if)::set(uvm_root::get(),"*","vif",vif);
+    $dumpvars;
+  end
+  
+  initial begin
+    run_test("my_test");
+  end
+endmodule
