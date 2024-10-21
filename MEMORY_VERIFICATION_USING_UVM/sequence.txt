@@ -1,0 +1,18 @@
+class mem_sequence extends uvm_sequence#(mem_seq_item);
+ `uvm_object_utils(mem_sequence) 
+  
+  function new(string name="mem_sequence");
+    super.new(name);
+  endfunction
+  
+ virtual task body();
+ mem_seq_item req; 
+ repeat (5) begin
+ req = mem_seq_item::type_id::create("req");
+ start_item(req); 
+ assert(req.randomize());
+ finish_item(req); 
+ end
+ endtask
+  
+endclass

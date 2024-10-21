@@ -1,0 +1,45 @@
+import uvm_pkg::*;
+`include "uvm_macros.svh"
+`include "interface"
+`include "package"
+
+ virtual mem_if vif;
+
+module tb_top;
+ bit clk;
+ bit reset;
+ always #5 clk = ~clk; 
+ 
+  initial begin
+ reset = 1;
+ #5 reset = 0; 
+ end
+  
+ mem_if vif(clk); 
+ memory DUT (
+   .clk(vif.clk),
+   .reset(vif.reset),
+   .addr(vif.addr),
+   .wr_en(vif.wr_en),
+   .rd_en(vif.rd_en),
+   .wdata(vif.wdata),
+   .rdata(vif.rdata)
+ );
+  
+  initial begin
+    $dumpfile("dump.vcd"); 
+  $dumpvars(0, tb_top); 
+end
+  
+ initial begin
+   uvm_config_db#(virtual mem_if)::set(uvm_root::get(), "*", "vif", vif);
+ end
+ 
+  initial begin
+   run_test("my_test"); // Start the UVM test
+  end
+
+endmodule
+
+
+

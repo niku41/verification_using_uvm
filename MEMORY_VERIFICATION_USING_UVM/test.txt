@@ -1,0 +1,22 @@
+class mem_wr_rd_test extends uvm_test;
+    `uvm_component_utils(mem_wr_rd_test)
+
+    mem_sequence sequ;  
+    mem_model_env env;
+
+    function new(string name = "mem_wr_rd_test", uvm_component parent);
+        super.new(name, parent);
+    endfunction : new
+
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase); 
+        sequ = mem_sequence::type_id::create("sequ");  
+        env = mem_model_env::type_id::create("env", this);  // Instantiate environment
+    endfunction : build_phase
+
+    task run_phase(uvm_phase phase);
+        phase.raise_objection(this);
+        sequ.start(env.mem_agnt.sequencer);  // Start the sequence on the sequencer
+        phase.drop_objection(this);
+    endtask : run_phase
+endclass : mem_wr_rd_test
