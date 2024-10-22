@@ -1,0 +1,48 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
+`include "interface"
+`include "sequence_item"
+`include "sequence"
+`include "sequencer"
+`include "driver"
+`include "monitor"
+`include "agent"
+`include "scoreboard"
+`include "env"
+`include "test"
+
+module top;
+  
+  logic clk;
+  
+  siso dut(.clk(intf.clk),.rst(intf.rst),.d(intf.d),.q(intf.q));
+  
+  siso_intf intf(.clk(clk));
+  
+  virtual siso_intf vif;
+  
+  initial begin
+    $dumpfile("dump.vcd"); 
+  $dumpvars(0, top); 
+end
+  
+  initial begin
+    uvm_config_db#(virtual siso_intf)::set(uvm_root::get(), "*", "vif", vif);
+  end
+  
+  initial begin
+    run_test("siso_test");
+ end
+  
+  initial
+    clk = 0;
+    always #10 clk = ~clk;
+    
+  initial begin
+    $monitor("Time: %0t, clk = %0d", $time, clk);
+             #100
+             $finish;
+             end
+             
+             endmodule

@@ -1,0 +1,19 @@
+class siso_sequence extends uvm_sequence#(siso_seq_item);
+  `uvm_object_utils(siso_sequence)
+  
+  siso_seq_item tx;
+  
+  function new(string name ="siso_sequence");
+    super.new(name);
+    `uvm_info("sequence Class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  task body();
+    repeat(5) begin
+      tx = siso_seq_item::type_id::create("tx");
+      tx.randomize();
+      send_request(tx);
+    end
+  endtask
+  
+endclass

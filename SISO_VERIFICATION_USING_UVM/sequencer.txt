@@ -1,0 +1,10 @@
+class siso_sequencer extends uvm_sequencer#(siso_seq_item);
+  `uvm_component_utils(siso_sequencer) 
+  
+  function new(string name ="siso_sequencer", uvm_component parent);
+    super.new(name, parent);
+    `uvm_info("sequencer Class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  
+endclass

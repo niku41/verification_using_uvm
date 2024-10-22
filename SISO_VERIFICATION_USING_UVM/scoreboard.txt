@@ -1,0 +1,22 @@
+class siso_scoreboard extends uvm_scoreboard ;
+  `uvm_component_utils(siso_scoreboard) 
+  
+  uvm_analysis_imp#(siso_seq_item, siso_scoreboard) item_collected_export;
+
+  siso_seq_item tx_q[$];
+  
+  function new(string name ="siso_scoreboard", uvm_component parent);
+    super.new(name, parent);
+    `uvm_info("scoreboard Class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    item_collected_export = new("item_collected_export", this);
+  endfunction
+  
+  virtual function void write(siso_seq_item tx);
+    tx_q.push_back(tx);
+  endfunction
+  
+endclass

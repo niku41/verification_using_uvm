@@ -1,0 +1,26 @@
+class siso_agent extends uvm_agent;
+  `uvm_component_utils(siso_agent) 
+  
+  siso_driver drv;
+  siso_monitor mon;
+  siso_sequencer seqr;  
+  
+  function new(string name ="siso_agent", uvm_component parent);
+    super.new(name, parent);
+    `uvm_info("Agent Class", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    drv = siso_driver ::type_id::create("siso_driver", this);
+    mon = siso_monitor ::type_id::create("siso_monitor", this);
+    seqr = siso_sequencer ::type_id::create("siso_sequencer", this);
+  endfunction
+  
+   function void connect_phase(uvm_phase phase);
+    super.connect_phase(phase);
+    `uvm_info("agent Class", "connect phase", UVM_MEDIUM)
+    drv.seq_item_port.connect(seqr.seq_item_export);
+  endfunction
+  
+endclass

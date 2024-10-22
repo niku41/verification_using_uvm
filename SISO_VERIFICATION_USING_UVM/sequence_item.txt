@@ -1,0 +1,15 @@
+class siso_seq_item extends uvm_sequence_item;
+  `uvm_object_utils(siso_seq_item)
+  
+  rand logic rst;
+  rand logic d;
+  logic q;
+  
+  function new(string name = "siso_seq_item");
+    super.new(name);
+    `uvm_info("siso_seq_item", "constructor", UVM_MEDIUM)
+  endfunction
+  
+  constraint wr_rd_c { rst != 1;};
+  
+endclass
