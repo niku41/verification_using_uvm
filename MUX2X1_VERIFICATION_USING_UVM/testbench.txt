@@ -1,0 +1,28 @@
+
+`include "uvm_pkg.sv"
+import uvm_pkg::*;
+
+`include "mux_intf"
+`include "mux_tx"
+`include "mux_coverage"
+`include "mux_monitor"
+`include "mux_sequencer"
+`include "mux_driver"
+`include "mux_agent"
+`include "mux_env"
+`include "mux_seq"
+`include "mux_test"
+
+module top;
+
+mux_intf pif();
+mux dut(.a(pif.x),.b(pif.y),.sel(pif.select),.out(pif.mux_out));
+
+initial begin
+	uvm_config_db#(virtual mux_intf)::set(uvm_root::get(),"","vif",pif);
+end
+
+initial begin
+  run_test("mux_test");
+end
+endmodule
