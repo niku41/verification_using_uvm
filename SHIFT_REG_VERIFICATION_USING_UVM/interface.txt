@@ -1,0 +1,13 @@
+interface intf(input bit clk);
+    logic rst;
+    logic [3:0] in;
+    logic [3:0] out;
+  
+    clocking cb @(posedge clk);
+      default input #1step output #1;
+      output rst,in; //input of DUT
+      input  out;    //output of DUT
+    endclocking
+        
+endinterface
+

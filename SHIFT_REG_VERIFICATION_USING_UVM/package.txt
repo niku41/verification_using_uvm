@@ -1,0 +1,20 @@
+
+`ifndef TB_PKG
+`define TB_PKG
+`include "uvm_macros.svh"
+package tb_pkg;
+ import uvm_pkg::*;
+ `include "she_sequence_item"        
+ `include "shr_sequence"            
+ `include "shr_sequencer"           
+ `include "shr_driver"              
+ `include "shr_monitor"
+ `include "shr_agent"                
+ `include "shr_coverage"             
+ `include "shr_scoreboard"
+ `include "shr_env"                 
+ `include "shr_test"
+endpackage
+`endif 
+
+
