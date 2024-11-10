@@ -1,0 +1,10 @@
+interface intf(input bit clk);
+    parameter ADDR_WIDTH=16;
+    parameter DATA_WIDTH=8;
+    logic [DATA_WIDTH-1:0]data_in;
+    logic [DATA_WIDTH-1:0]data_out;
+    logic rdn_wr;
+    logic rst_p;
+    logic [ADDR_WIDTH-1:0]addr;
+        
+endinterface

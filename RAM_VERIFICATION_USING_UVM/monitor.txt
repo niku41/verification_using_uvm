@@ -1,0 +1,39 @@
+class ram_monitor extends uvm_monitor;
+  
+  `uvm_component_utils(ram_monitor)
+  
+  function new(string name="",uvm_component parent);
+    super.new(name,parent);
+  endfunction
+  
+  ram_sequence_item  txn;
+  
+  virtual interface intf vif;
+    
+  uvm_analysis_port#(ram_sequence_item) ap_mon;
+    
+  function void build_phase(uvm_phase phase);
+    super.build_phase(phase);
+    if(!(uvm_config_db#(virtual intf)::get(this,"","vif",vif)))
+    begin
+      `uvm_fatal("monitor","unable to get interface")
+    end
+    
+    ap_mon=new("ap_mon",this);
+    txn=ram_sequence_item::type_id::create("txn",this);
+  endfunction
+    
+  task run_phase(uvm_phase phase);
+    forever
+    begin
+      @(negedge vif.clk);
+      txn.addr 		= vif.addr;
+      txn.data_in   = vif.data_in;
+      txn.data_out  = vif.data_out;
+      txn.rdn_wr    = vif.rdn_wr;
+      txn.rst_p     = vif.rst_p; 
+      ap_mon.write(txn);
+    end
+  endtask
+
+endclass:ram_monitor
