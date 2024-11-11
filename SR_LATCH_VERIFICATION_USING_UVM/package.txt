@@ -1,0 +1,18 @@
+
+`ifndef TB_PKG
+`define TB_PKG
+`include "uvm_macros.svh"
+package tb_pkg;
+ import uvm_pkg::*;
+ `include "sr_sequence_item"  
+ `include "sr_sequence"    
+ `include "sr_sequencer"  
+ `include "sr_driver"      
+ `include "sr_monitor"    
+ `include "sr_agent"      
+ `include "sr_coverage"    
+ `include "sr_scoreboard" 
+ `include "sr_env"    
+ `include "sr_test"   
+endpackage
+`endif 
